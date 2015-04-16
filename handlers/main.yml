@@ -1,0 +1,5 @@
+---
+# handlers file for lets-chat
+- name: "Restart let's chat"
+  sudo_user: "{{ lc_user }}"
+  command: "forever restart --workingDir {{ lc_repos.dir }} {{ lc_repos.app }}"

@@ -1,0 +1,37 @@
+---
+# defaults file for lets-chat
+
+lc_repos:
+  dir: "/opt/lets-chat/"
+  config: "/opt/lets-chat/settings.yml"
+  app: "/opt/lets-chat/app.js"
+temp_lc_location: "/opt/lets-chat/tmp"
+
+lc_user_group: vagrant
+lc_user: vagrant
+
+lc_branch: master
+lc_mongodb_uri: localhost
+
+lc_http_enable: true
+lc_http_host: localhost
+lc_http_port: 5000
+
+lc_https_enable: false
+lc_https_port: 5001
+
+
+lc_files_enable: true
+lc_files_maxFile: 100000002
+lc_files_restrictTypes: false
+lc_auth_providers:
+  - local
+#  - kerberos
+#  - ldap
+lc_local_self_registration: true
+lc_auth_throttling_enable: true
+lc_auth_throttling_threshold: 5
+
+
+lc_cookie_secrets_salt: cuKGpYJVXswX-ws2E_aLJdjfNwNZgtPy
+lc_auth_secrets_salt: Gi_8zjfmH6-JLFxDaH7Vb7f8TswQTVDN

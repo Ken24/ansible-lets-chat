@@ -1,0 +1,13 @@
+---
+- name: MongoDB | Add mongodb repository
+  copy: src=mongodb-org-2.6.repo
+        dest=/etc/yum.repos.d/
+        owner=root group=root mode=0644
+
+- name: MongoDB | Install MongoDB
+  yum: name="{{ item }}" state=present
+  with_items:
+    - mongodb-org
+
+- name: MongoDB | Ensure MongoDB service is enabled and started
+  service: name=mongod enabled=yes state=started

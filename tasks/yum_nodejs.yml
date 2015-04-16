@@ -1,0 +1,40 @@
+---
+# tasks file for installation of node.js on centos
+
+
+- name: Check if node.js is installed (if not, arrising error will be ignored)
+  command: rpm -q nodejs
+  register: nodejs_check
+  ignore_errors: True
+
+- name: Node.js | Install packages prerequisite for node.js
+  yum: name="{{ item }}" state=present
+  with_items:
+    - gcc-c++
+    - make
+    - libselinux-python
+
+- name: Node.js | check existence of temp directory if node.js isn't installed
+  file: path="{{ temp_lc_location }}" state=directory
+  when: nodejs_check.stdout.find('is not installed') != -1
+
+- name: Node.js | upload setup script for node.js if node.js isn't installed
+  copy: src=rpm_setup dest="{{ temp_lc_location }}/" mode=0755
+  when: nodejs_check.stdout.find('is not installed') != -1
+
+- name: Node.js | Run setup script if node.js isn't installed
+  shell: ./rpm_setup chdir="{{ temp_lc_location }}/"
+  when: nodejs_check.stdout.find('is not installed') != -1
+
+- name: Node.js | Install packages including node.js if node.js isn't installed
+  yum: name="{{ item }}" state=present
+  with_items:
+    - gcc-c++
+    - make
+    - libselinux-python
+    - nodejs
+  when: nodejs_check.stdout.find('is not installed') != -1
+
+- name: Node.js | remove temp directory if node.js isn't installed
+  file: path="{{ temp_lc_location }}" state=absent
+  # when: nodejs_check.stdout.find('is not installed') != -1

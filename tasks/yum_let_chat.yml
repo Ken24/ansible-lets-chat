@@ -1,0 +1,68 @@
+---
+- name: Let's chat | Install packages prerequisite for let's chat
+  yum: name="{{ item }}" state=present
+  with_items:
+    - "@Development tools"
+    - git
+    - kernel-devel
+    - kernel-headers
+    - libicu-devel
+
+- name: Let's chat | Deploy codes from git
+  git:
+    repo: https://github.com/sdelements/lets-chat.git
+    update: yes
+    dest: "{{ lc_repos.dir }}"
+    version: "{{ lc_branch }}"
+  notify: "Restart let's chat"
+
+- name: Let's chat | Chown deployed codes
+  file:
+    path: "{{ lc_repos.dir }}"
+    state: directory
+    group: "{{ lc_user_group }}"
+    owner: "{{ lc_user }}"
+    recurse: yes
+
+- name: Let's chat | Install forever (to run lets-chat app).
+  npm: name="{{ item }}" state=present global=yes
+  with_items:
+    - forever
+
+- name: Let's chat | Install via npm
+  sudo_user: "{{ lc_user }}"
+  npm:
+    path: "{{ lc_repos.dir }}"
+    production: yes
+
+- name: Let's chat | deploy configuration file
+  template:
+    src: setting.yml.j2
+    dest: "{{ lc_repos.dir }}"
+    group: "{{ lc_user_group }}"
+    owner: "{{ lc_user }}"
+    mode: 0644
+    backup: yes
+  notify: "Restart let's chat"
+#
+- name: Check list of let's chat apps running
+  sudo_user: "{{ lc_user }}"
+  command: forever list
+  register: forever_list
+  changed_when: false
+#
+- name: Start let's chat apps via forever
+  sudo_user: "{{ lc_user }}"
+  command: "forever start --workingDir {{ lc_repos.dir }} {{ lc_repos.app }}"
+
+  environment:
+    LCB_HTTP_HOST: 0.0.0.0
+  when: "forever_list.stdout.find('{{lc_repos.app }}') == -1"
+
+- name: Register crontab to automatically start let's chat on system restart
+  cron:
+    name: run let's chat via forever
+    state: present
+    special_time: reboot
+    user: "{{ lc_user }}"
+    job: "forever start --workingDir {{ lc_repos.dir }} {{ lc_repos.app }}"

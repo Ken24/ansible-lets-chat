@@ -1,0 +1,48 @@
+# encoding: utf-8
+# syntax: yaml
+
+# Let's Chat Settings
+#
+# See defaults.yml for all available options
+#
+
+env: production # development / production
+
+http:
+  enable: {{ lc_http_enable }}
+  host: '{{ lc_http_host }}'
+  port: {{ lc_http_port }}
+
+https:
+  enable: {{ lc_https_enable }}
+  port: {{ lc_https_port }}
+  key: key.pem
+  cert: certificate.pem
+
+files:
+  enable: {{ lc_files_enable }}
+  provider: local
+  maxFileSize: {{ lc_files_maxFile }}
+  restrictTypes: false
+  local:
+    dir: uploads
+
+xmpp:
+  enable: false
+  port: 5222
+  domain: example.com
+
+database:
+  uri: mongodb://{{ lc_mongodb_uri }}/letschat
+
+secrets:
+  cookie: {{ lc_cookie_secrets_salt }}
+
+auth:
+  providers: {{ lc_auth_providers }}
+  local:
+    enableRegistration: {{ lc_local_self_registration }}
+    salt: {{ lc_auth_secrets_salt }}
+  throttling:
+    enable: {{ lc_auth_throttling_enable }}
+    threshold: {{ lc_auth_throttling_threshold }}

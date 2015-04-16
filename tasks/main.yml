@@ -1,0 +1,6 @@
+---
+# tasks file for lets-chat
+- include: yum_nodejs.yml
+- include: yum_mongodb.yml
+  when: lc_mongodb_uri == 'localhost'
+- include: yum_let_chat.yml

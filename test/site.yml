@@ -1,0 +1,5 @@
+---
+- hosts: lets-chat-test
+  sudo: yes
+  roles:
+    - lets-chat
