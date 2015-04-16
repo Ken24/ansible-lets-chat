@@ -34,7 +34,6 @@ You can change defaluts variavie as follows:
   * app
 * temp_lc_location:
 
-
 * lc_http_enable
 * lc_http_host
 * lc_http_port
@@ -70,6 +69,9 @@ Including an example of how to use your role (for instance, with variables passe
     - hosts: lets-chat
       roles:
          - { role: ken24.let-chat, sudo: yes }
+      vars:
+         lc_user: {{ ansible_ssh_user }}
+         lc_user_group: {{ ansible_ssh_user }}
 
 License
 -------
