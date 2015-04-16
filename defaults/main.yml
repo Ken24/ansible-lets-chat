@@ -33,5 +33,5 @@ lc_auth_throttling_enable: true
 lc_auth_throttling_threshold: 5
 
 
-lc_cookie_secrets_salt: cuKGpYJVXswX-ws2E_aLJdjfNwNZgtPy
-lc_auth_secrets_salt: Gi_8zjfmH6-JLFxDaH7Vb7f8TswQTVDN
+lc_cookie_secrets_salt: secretsource
+lc_auth_secrets_salt: secretsource
