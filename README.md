@@ -21,10 +21,12 @@ I've checked on CentOS 6.5. I haven't implement code for lamp or kerberos authen
 
 Role Variables
 --------------
+I recommend to change variable ``lc_user_group`` and  ``lc_user``. Default value is ``vagrant``.
 
-You can change defaluts variavie as follows:
 
 It's recommended to change variable ``lc_cookie_secrets_salt`` and ``lc_auth_secrets_salt`` because default setting is likely insecure.
+
+You can change defaluts variavie as follows:
 
 * lc_repos
   * dir
@@ -33,18 +35,9 @@ It's recommended to change variable ``lc_cookie_secrets_salt`` and ``lc_auth_sec
 * temp_lc_location:
 
 
-* lc_user_group
-* lc_user
-
-
-* lc_branch
-* lc_mongodb_uri
-
 * lc_http_enable
 * lc_http_host
 * lc_http_port
-
-
 * lc_https_enable
 * lc_https_port
 * lc_files_enable
